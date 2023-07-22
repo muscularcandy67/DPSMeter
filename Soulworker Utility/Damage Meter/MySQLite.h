@@ -2,7 +2,7 @@
 #include "Third Party\SQLite\include\sqlite3.h"
 
 #define SWDB MySQL::getInstance()
-#define SWDBPATH "SWDB.db"
+#define SWDBPATH "Reclipse_SWDB.db"
 
 #ifdef _DEBUG
 #define DEBUG_SKILL_NAME 0

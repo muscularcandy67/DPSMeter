@@ -4,7 +4,7 @@
 #include ".\Damage Meter\Damage Meter.h"
 #ifndef SERVER_KOREA
 const uint64_t appId = 766705016081612810;
-const char imageLink[] = "https://cdn.discordapp.com/app-icons/766705016081612810/2e18ca8613674db1caf850a35ca8e9df.png?size=256";
+const char imageLink[] = "https://cdn.discordapp.com/emojis/1095982479762014230.webp?size=4096&quality=lossless";
 #else
 const uint64_t appId = 997228082530353242;
 const char imageLink[] = "https://cdn.discordapp.com/app-icons/997228082530353242/daed10ef3cfd4aeef5738e7dbf73d132.png?size=256";
@@ -28,8 +28,9 @@ DWORD DiscordCustomPresence::Init()
 	}
 	core->SetLogHook(discord::LogLevel::Debug,LogProblemsFunction);
 	discord::Activity Activity{};
-	Activity.SetDetails("Idle");
-	Activity.SetState("discord.com/invite/H7jZpcVJhq");
+	Activity.SetName("SoulWorker | Reclipse");
+	Activity.SetDetails("Loading SoulWorker");
+	//Activity.SetState("discord.com/invite/H7jZpcVJhq");
 	Activity.SetType(discord::ActivityType::Playing);
 	Activity.GetAssets().SetLargeImage(imageLink);
 	core->ActivityManager().UpdateActivity(Activity, [](discord::Result callback) {if (callback == discord::Result::Ok) { LogInstance.WriteLog("Discord is initialized"); DISCORD.isInitialized = true; } else { LogInstance.WriteLog("Failed to init discord: %u", callback); }});
@@ -105,20 +106,22 @@ VOID DiscordCustomPresence::UpdatePresence(std::string nick, UINT32 maze, UINT8 
 	if (maze != 0) {
 		char _mapName[MAX_MAP_LEN];
 		SWDB.GetMapNameENG(maze, _mapName, MAX_MAP_LEN);
-		std::string detailsString = _mapName;
+		//std::string detailsString = _mapName;
 		if (!hideName)
-			detailsString += " | " + nick;
-		if(!hideClass)
-			detailsString += " (" + getCharacterName(playerclass) + ")";
+			//detailsString += nick;
+		if (!hideClass) {}
+			//detailsString += " (" + getCharacterName(playerclass) + ")";
+		std::string detailsString = "Reclipse | ";
+		detailsString+=nick;
 		Activity.SetDetails(detailsString.c_str());
 		std::string pingString;
-		pingString += std::to_string(DAMAGEMETER.GetPing()) + "ms discord.com/invite/H7jZpcVJhq";
+		pingString += std::to_string(DAMAGEMETER.GetPing()) + "ms" +  " | " + _mapName;
 		Activity.SetState(pingString.c_str());
 	}
 	else
 	{
 		Activity.SetDetails("Character Selection");
-		Activity.SetState("discord.com/invite/H7jZpcVJhq");
+		Activity.SetState("");
 	}
 	if (DAMAGEMETER.isRun()) {
 		Activity.GetTimestamps().SetStart(DAMAGEMETER.GetStartTime());

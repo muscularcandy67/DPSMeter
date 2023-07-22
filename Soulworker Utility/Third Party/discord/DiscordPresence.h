@@ -13,5 +13,5 @@ public:
 	bool shouldUpdate = true;
 	bool isInitialized = false;
 	bool hideName = false;
-	bool hideClass = false;
+	bool hideClass = true;
 };
